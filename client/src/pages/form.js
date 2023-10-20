@@ -1,60 +1,102 @@
 import React from "react";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import * as Yup from "yup";
+import axios from "axios";
 
 const PageForm = () => {
-  const initialValues = { name: "", email: "", websiteURL: "", imageURL: "" };
+  const apiUrl = process.env.REACT_APP_API_URL;
+  const initialValues = { name: "", email: "", websiteURL: "" };
 
   const validationSchema = Yup.object({
-    name: Yup.string().required("Name is required"),
+    name: Yup.string().required("Name is required*"),
     email: Yup.string()
       .email("Invalid email format")
-      .required("Email is required"),
+      .required("Email is required*"),
     websiteURL: Yup.string()
-      .url("Invalid URL format")
-      .required("Website URL is required"),
+      .url("Invalid URL format use https://")
+      .required("Website URL is required*"),
   });
 
-  const handleSubmit = (values) => {
-    alert(JSON.stringify(values, null));
+  const handleSubmit = (values, { resetForm }) => {
+    axios
+      .post(apiUrl + "/api/users/form", values)
+      .then((res) => {
+        resetForm();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
-    <div>
-      <div className="antialiased bg-gradient-to-br from-green-100 to-white">
-        <div className="container px-16 mx-auto">
-          <div className="flex flex-col gap-10 md:flex-row h-screen justify-evenly md:items-center">
-            <div className="w-full md:w-full lg:w-9/12 mx-auto md:mx-0">
+    <div className="antialiased w-full bg-gradient-to-br from-green-100 to-white">
+      <div className="container px-5 mx-auto">
+        <div className="flex h-screen justify-center items-center">
+          <div className="w-full md:w-[65%] mx-auto">
+            <Formik
+              initialValues={initialValues}
+              validationSchema={validationSchema}
+              onSubmit={handleSubmit}
+            >
               <div className="bg-white p-10 flex flex-col w-full shadow-xl rounded-xl">
                 <h2 className="text-2xl font-bold text-gray-800 text-left mb-5">
-                  Register
+                  Entry
                 </h2>
-                <form action="" className="w-full">
-                  <div id="input" className="flex flex-col w-full my-5">
-                    <label for="username" className="text-gray-500 mb-2">
-                      Username
+                <Form className="w-full">
+                  <div className="flex flex-col w-full my-5">
+                    <label htmlFor="name" className="text-gray-500 mb-2">
+                      Name
                     </label>
-                    <input
+                    <Field
                       type="text"
-                      id="username"
-                      placeholder="Please insert your username"
+                      id="name"
+                      name="name"
+                      placeholder="Please insert your name"
                       className="appearance-none border-2 border-gray-100 rounded-lg px-4 py-3 placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-green-600 focus:shadow-lg"
                     />
+                    <ErrorMessage
+                      name="name"
+                      component="div"
+                      className="text-red-600"
+                    />
                   </div>
-                  <div id="input" className="flex flex-col w-full my-5">
-                    <label for="password" className="text-gray-500 mb-2">
-                      Password
+                  <div className="flex flex-col w-full my-5">
+                    <label htmlFor="email" className="text-gray-500 mb-2">
+                      Email
                     </label>
-                    <input
-                      type="password"
-                      id="password"
-                      placeholder="Please insert your password"
+                    <Field
+                      type="email"
+                      id="email"
+                      name="email"
+                      placeholder="Please insert your email"
                       className="appearance-none border-2 border-gray-100 rounded-lg px-4 py-3 placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-green-600 focus:shadow-lg"
                     />
+                    <ErrorMessage
+                      name="email"
+                      component="div"
+                      className="text-red-600"
+                    />
                   </div>
-                  <div id="button" className="flex flex-col w-full my-5">
+                  <div className="flex flex-col w-full my-5">
+                    <label htmlFor="websiteURL" className="text-gray-500 mb-2">
+                      Website URL
+                    </label>
+                    <Field
+                      type="text"
+                      id="websiteURL"
+                      name="websiteURL"
+                      placeholder="Please insert your website URL"
+                      className="appearance-none border-2 border-gray-100 rounded-lg px-4 py-3 placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-green-600 focus:shadow-lg"
+                    />
+                    <ErrorMessage
+                      name="websiteURL"
+                      component="div"
+                      className="text-red-600"
+                    />
+                  </div>
+                  <div className="flex flex-col w-full my-5">
                     <button
-                      type="button"
+                      type="submit"
                       className="w-full py-4 bg-green-600 rounded-lg text-green-100"
                     >
                       <div className="flex flex-row items-center justify-center">
@@ -78,15 +120,9 @@ const PageForm = () => {
                       </div>
                     </button>
                   </div>
-                </form>
+                </Form>
               </div>
-            </div>
-            <div className="flex flex-col w-full">
-              <h1 className="text-5xl text-gray-800 font-bold">Client Area</h1>
-              <p className="w-5/12 mx-auto md:mx-0 text-gray-500">
-                Control and monitorize your website data from dashboard.
-              </p>
-            </div>
+            </Formik>
           </div>
         </div>
       </div>

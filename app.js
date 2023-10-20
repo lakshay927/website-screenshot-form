@@ -9,6 +9,7 @@ const users = require("./routes/form");
 const app = express();
 const port = 3002;
 // middleware
+app.use(express.static("./"));
 app.use(express.json());
 app.use(cookieParser());
 app.use(
