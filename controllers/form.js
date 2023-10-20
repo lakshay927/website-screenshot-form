@@ -1,6 +1,6 @@
 const UserModel = require("../models/form");
 
-//list
+//list of enteries
 const getList = async (req, res) => {
   try {
     const users = await UserModel.find({});
@@ -10,7 +10,7 @@ const getList = async (req, res) => {
   }
 };
 
-//form
+//form 
 const form = async (req, res) => {
   try {
     const data = await UserModel.create({
@@ -21,7 +21,7 @@ const form = async (req, res) => {
     });
     return res.status(201).send(data);
   } catch (err) {
-    return res.status(500), json({ msg: err });
+    return res.status(500).json({ msg: err });
   }
 };
 

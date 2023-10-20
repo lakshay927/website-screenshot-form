@@ -21,34 +21,6 @@ const PageForm = () => {
 
   return (
     <div>
-      {/* <Formik
-        initialValues={initialValues}
-        validationSchema={validationSchema}
-        onSubmit={handleSubmit}
-      >
-        <Form>
-          <div>
-            <label htmlFor="name">Name:</label>
-            <Field type="text" id="name" name="name" />
-            <ErrorMessage
-              name="name"
-              component="div"
-              className="text-red-600"
-            />
-          </div>
-          <div>
-            <label htmlFor="email">Email:</label>
-            <Field type="email" id="email" name="email" />
-            <ErrorMessage name="email" component="div" className="error" />
-          </div>
-          <button
-            type="submit"
-            //   disabled={isSubmitting}
-          >
-            Submit
-          </button>
-        </Form>
-      </Formik> */}
       <div className="antialiased bg-gradient-to-br from-green-100 to-white">
         <div className="container px-16 mx-auto">
           <div className="flex flex-col gap-10 md:flex-row h-screen justify-evenly md:items-center">
